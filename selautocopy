@@ -1,0 +1,28 @@
+#!/bin/sh
+
+# Description: Toggles autocopy of selection content
+# Dependencies: clipnotify, sselp, 
+
+set -eu
+
+LOCKFILE="/tmp/selautocopy"
+
+if [ -e "$LOCKFILE" ]; then
+	pid=$(cat "$LOCKFILE")
+	rm -f "$LOCKFILE"
+	kill "$pid" &>/dev/null
+	notify-send "Selection autocopy disabled!"
+	exit
+fi
+
+(
+	while clipnotify; do
+		sselp | xclip -i -sel clip
+	done
+) &
+pid=$!
+
+if [ -n "$pid" ]; then
+	echo $! >"$LOCKFILE"
+	notify-send "Selection autocopy enabled!"
+fi
