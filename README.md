@@ -1,2 +1,2 @@
 
-A collection of shell scripts I wrote
+A collection of shell scripts
