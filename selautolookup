@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# Description: Toggles autolookup of selection content using the dictpopup: https://github.com/GenjiFujimoto/dictpopup
+# Dependencies: clipnotify, sselp
+
+LOCKFILE="/tmp/selautocopy"
+
+if [ -e "$LOCKFILE" ]; then
+	pid=$(cat "$LOCKFILE")
+	rm -f "$LOCKFILE"
+	kill "$pid" 2>/dev/null
+	notify-send "Selection autolookup disabled!"
+	exit
+fi
+
+(
+	while clipnotify; do
+	      dictpopup
+	      sleep 0.2
+	done
+) &
+pid=$!
+
+if [ -n "$pid" ]; then
+	echo $! >"$LOCKFILE"
+	notify-send "Selection autolookup enabled!"
+fi
