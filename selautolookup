@@ -3,7 +3,7 @@
 # Description: Toggles autolookup of selection content using the dictpopup: https://github.com/GenjiFujimoto/dictpopup
 # Dependencies: clipnotify, sselp
 
-LOCKFILE="/tmp/selautocopy"
+LOCKFILE="/tmp/selautolookup"
 
 if [ -e "$LOCKFILE" ]; then
 	pid=$(cat "$LOCKFILE")
